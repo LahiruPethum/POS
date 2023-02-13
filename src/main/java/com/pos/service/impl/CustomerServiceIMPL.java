@@ -4,16 +4,21 @@ import com.pos.dto.CustomerDTO;
 import com.pos.entity.Customer;
 import com.pos.repo.CustomerRepo;
 import com.pos.service.CustomerService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceIMPL implements CustomerService {
 
     @Autowired
     private CustomerRepo customerRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public void addCustomer(CustomerDTO customerDTO) {
@@ -53,27 +58,68 @@ public class CustomerServiceIMPL implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustormerById(int customerId) {
+
+    //method 1 using getById
+
+
+
+//    public CustomerDTO getCustormerById(int customerId) {
+//
+//        Customer customer = customerRepo.getById(customerId);
+//
+//        if (customer!=null){
+//            CustomerDTO customerDTO=new CustomerDTO(
+//                    customer.getCustomerId(),
+//                    customer.getCustomerName(),
+//                    customer.getCustormerAddress(),
+//                    customer.getCustomersalary(),
+//                    customer.getContactNumbers(),
+//                    customer.getNic(),
+//                    customer.isActiveState()
+//            );
+//
+//
+//            return customerDTO;
+//        }else {
+//            return null;
+//        }
+//
+//
+//    }
+
+
+    //method 2 using findBiId
+//    public CustomerDTO getCustormerById(int customerId) {
+//
+//        Optional<Customer> customer = customerRepo.findById(customerId);
+//
+//        if (customer.isPresent()){
+//            CustomerDTO customerDTO=new CustomerDTO(
+//                    customer.get().getCustomerId(),
+//                    customer.get().getCustomerName(),
+//                    customer.get().getCustormerAddress(),
+//                    customer.get().getCustomersalary(),
+//                    customer.get().getContactNumbers(),
+//                    customer.get().getNic(),
+//                    customer.get().isActiveState()
+//            );
+//
+//
+//            return customerDTO;
+//        }else {
+//            return null;
+//        }
+//
+//
+//    }
+
+
+    //method 3 using model mapping
+        public CustomerDTO getCustormerById(int customerId) {
 
         Customer customer = customerRepo.getById(customerId);
 
-        if (customer!=null){
-            CustomerDTO customerDTO=new CustomerDTO(
-                    customer.getCustomerId(),
-                    customer.getCustomerName(),
-                    customer.getCustormerAddress(),
-                    customer.getCustomersalary(),
-                    customer.getContactNumbers(),
-                    customer.getNic(),
-                    customer.isActiveState()
-            );
-
-
-            return customerDTO;
-        }else {
-            return null;
-        }
-
-
+        CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
+        return customerDTO;
     }
 }
