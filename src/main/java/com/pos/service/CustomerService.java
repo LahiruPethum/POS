@@ -2,6 +2,8 @@ package com.pos.service;
 
 import com.pos.dto.CustomerDTO;
 
+import java.util.List;
+
 public interface CustomerService {
 
 
@@ -10,4 +12,6 @@ public interface CustomerService {
     String updateCustomer(CustomerDTO customerDTO);
 
     CustomerDTO getCustormerById(int customerId);
+
+    List<CustomerDTO> getAllCustomers();
 }

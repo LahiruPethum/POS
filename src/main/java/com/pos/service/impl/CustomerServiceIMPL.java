@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -121,5 +122,41 @@ public class CustomerServiceIMPL implements CustomerService {
 
         CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
         return customerDTO;
+    }
+
+    @Override
+//    public List<CustomerDTO> getAllCustomers() {
+//
+//        List<Customer> getall = customerRepo.findAll();
+//        List<CustomerDTO> customerDTOList = new ArrayList<>();
+//
+//        for (Customer customer:getall){
+//            CustomerDTO customerDTO= new CustomerDTO(
+//                    customer.getCustomerId(),
+//                    customer.getCustomerName(),
+//                    customer.getCustormerAddress(),
+//                    customer.getCustomersalary(),
+//                    customer.getContactNumbers(),
+//                    customer.getNic(),
+//                    customer.isActiveState()
+//            );
+//
+//            customerDTOList.add(customerDTO);
+//        }
+//        return customerDTOList;
+//
+//    }
+
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer> getall = customerRepo.findAll();
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+
+        for (Customer customer:getall){
+            CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
+
+            customerDTOList.add(customerDTO);
+        }
+        return customerDTOList;
+
     }
 }

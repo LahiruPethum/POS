@@ -6,6 +6,8 @@ import com.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/customer")
 @CrossOrigin
@@ -33,5 +35,12 @@ public class CustomerController {
         CustomerDTO customerDTO=custermerService.getCustormerById(customerId);
         return customerDTO;
     }
+
+    @GetMapping(path="get-all-customers")
+    public List<CustomerDTO> getAllCustomers(){
+        List<CustomerDTO> allCustomers=custermerService.getAllCustomers();
+        return allCustomers;
+    }
+
 
 }
