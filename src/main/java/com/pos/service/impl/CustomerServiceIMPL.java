@@ -22,6 +22,8 @@ public class CustomerServiceIMPL implements CustomerService {
     @Autowired
     private ModelMapper modelMapper;
 
+
+    //post
     @Override
     public void addCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer(
@@ -41,6 +43,14 @@ public class CustomerServiceIMPL implements CustomerService {
         }
     }
 
+
+
+
+
+
+
+
+    //put
     @Override
     public String updateCustomer(CustomerDTO customerDTO) {
         if (customerRepo.existsById(customerDTO.getCustomerId())) {
@@ -59,8 +69,15 @@ public class CustomerServiceIMPL implements CustomerService {
         return "no custermer to update";
     }
 
-    @Override
 
+
+
+
+
+
+
+    @Override
+//search
     //method 1 using getById
 
 
@@ -125,6 +142,15 @@ public class CustomerServiceIMPL implements CustomerService {
         return customerDTO;
     }
 
+
+
+
+
+
+
+
+
+    //get all
     @Override
 //    public List<CustomerDTO> getAllCustomers() {
 //
@@ -173,4 +199,18 @@ public class CustomerServiceIMPL implements CustomerService {
         return customerDTOList;
 
     }
+
+
+
+    //delete
+    @Override
+    public String deleteCustomer(int customerId) {
+        if (customerRepo.existsById(customerId)){
+            customerRepo.deleteById(customerId);
+            return "Deleted";
+        }else {
+            return "No customer that id";
+        }
+    }
+
 }
