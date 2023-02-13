@@ -7,6 +7,8 @@ import com.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class CustomerServiceIMPL implements CustomerService {
 
@@ -48,5 +50,30 @@ public class CustomerServiceIMPL implements CustomerService {
             System.out.println("no custermer to update");
         }
         return "no custermer to update";
+    }
+
+    @Override
+    public CustomerDTO getCustormerById(int customerId) {
+
+        Customer customer = customerRepo.getById(customerId);
+
+        if (customer!=null){
+            CustomerDTO customerDTO=new CustomerDTO(
+                    customer.getCustomerId(),
+                    customer.getCustomerName(),
+                    customer.getCustormerAddress(),
+                    customer.getCustomersalary(),
+                    customer.getContactNumbers(),
+                    customer.getNic(),
+                    customer.isActiveState()
+            );
+
+
+            return customerDTO;
+        }else {
+            return null;
+        }
+
+
     }
 }
