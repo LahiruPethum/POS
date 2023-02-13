@@ -12,9 +12,10 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Autowired
     private CustomerRepo customerRepo;
+
     @Override
     public void addCustomer(CustomerDTO customerDTO) {
-        Customer customer= new Customer(
+        Customer customer = new Customer(
                 customerDTO.getCustomerId(),
                 customerDTO.getCustomerName(),
                 customerDTO.getCustomerAddress(),
@@ -24,10 +25,28 @@ public class CustomerServiceIMPL implements CustomerService {
                 customerDTO.isActiveState()
         );
 
-        if (!customerRepo.existsById(customer.getCustomerId())){
+        if (!customerRepo.existsById(customer.getCustomerId())) {
             customerRepo.save(customer);
-        }else {
+        } else {
             System.out.println("already in table");
         }
+    }
+
+    @Override
+    public String updateCustomer(CustomerDTO customerDTO) {
+        if (customerRepo.existsById(customerDTO.getCustomerId())) {
+            Customer customer = customerRepo.getById(customerDTO.getCustomerId());
+
+            customer.setCustomerName(customerDTO.getCustomerName());
+            customer.setCustomersalary(customerDTO.getCustomerSalary());
+            customer.setCustormerAddress(customerDTO.getCustomerAddress());
+
+            customerRepo.save(customer);
+            return "updated";
+
+        }else {
+            System.out.println("no custermer to update");
+        }
+        return "no custermer to update";
     }
 }
