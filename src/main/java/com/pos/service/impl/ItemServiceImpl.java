@@ -44,7 +44,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDTO> getItemByName(String itemName) {
-        List<Item> items = itemRepo.findAllByItemNameIs(itemName);
+        List<Item> items = itemRepo.findAllByItemNameEqualsAndActiveStateEquals(itemName,true);
         List<ItemDTO> itemDTOs = itemMapper.entityListToDtoList(items);
 
         if (itemName!=null){
