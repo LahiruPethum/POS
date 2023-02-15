@@ -3,6 +3,7 @@ package com.pos.service.impl;
 import com.pos.dto.ItemDTO;
 import com.pos.dto.request.RequestSaveItemDTO;
 import com.pos.entity.Item;
+import com.pos.exception.NotFoundExcption;
 import com.pos.repo.ItemRepo;
 import com.pos.service.ItemService;
 import com.pos.utill.mappers.ItemMapper;
@@ -74,13 +75,23 @@ public class ItemServiceImpl implements ItemService {
 //        }
 //
 //    }
-    public List<ItemDTO> getAllItems() {
-        List<Item> getAllItems = itemRepo.findAll();
-        List<ItemDTO> itemDTOList = itemMapper.entityListToDtoList(getAllItems);
 
-       return itemDTOList;
+
+
+    public List<ItemDTO> getAllItems()  {
+        List<Item> getAllItems = itemRepo.findAllByActiveStateIs(false);
+
+if (getAllItems.size()>0){
+    List<ItemDTO> itemDTOList = itemMapper.entityListToDtoList(getAllItems);
+    return itemDTOList;
+}
+
+throw new NotFoundExcption("No item to show in this table");
+
 
     }
+
+
 
     @Override
     public String deleteItem(int itemId) {

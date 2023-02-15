@@ -3,8 +3,12 @@ package com.pos.controller;
 import com.pos.dto.CustomerDTO;
 import com.pos.dto.ItemDTO;
 import com.pos.dto.request.RequestSaveItemDTO;
+import com.pos.exception.NotFoundExcption;
 import com.pos.service.ItemService;
+import com.pos.utill.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +35,26 @@ public class ItemController {
     }
 
     @GetMapping(path = "/get-all")
-    public List<ItemDTO> getAllItems(){
-        List<ItemDTO> allItems = itemService.getAllItems();
-        return allItems;
+//    public List<ItemDTO> getAllItems(){
+//        List<ItemDTO> allItems = itemService.getAllItems();
+//        return allItems;
+//    }
+
+//    public ResponseEntity<StandardResponse> getallItems(){
+//        List<ItemDTO> itemDTOList = itemService.getAllItems();
+//        ResponseEntity<StandardResponse> m = new ResponseEntity<StandardResponse>(
+//                new StandardResponse(200,"Success",itemDTOList), HttpStatus.OK
+//        );
+//        return m;
+//    }
+
+    public ResponseEntity<StandardResponse> getallItems() {
+        List<ItemDTO> itemDTOList =itemService.getAllItems();
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"Success",itemDTOList),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping(path = "/update")
