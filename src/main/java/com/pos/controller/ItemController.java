@@ -2,6 +2,7 @@ package com.pos.controller;
 
 import com.pos.dto.CustomerDTO;
 import com.pos.dto.ItemDTO;
+import com.pos.dto.request.RequestSaveItemDTO;
 import com.pos.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping(path = "/save")
-    public String saveItem(@RequestBody ItemDTO itemDTO){
-        String s = itemService.addItem(itemDTO);
+    public String saveItem(@RequestBody RequestSaveItemDTO requestSaveItemDTO){
+        String s = itemService.addItem(requestSaveItemDTO);
         return s;
     }
 

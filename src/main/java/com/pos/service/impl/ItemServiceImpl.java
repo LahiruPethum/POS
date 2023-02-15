@@ -1,11 +1,11 @@
 package com.pos.service.impl;
 
-import com.pos.dto.CustomerDTO;
 import com.pos.dto.ItemDTO;
-import com.pos.entity.Customer;
+import com.pos.dto.request.RequestSaveItemDTO;
 import com.pos.entity.Item;
 import com.pos.repo.ItemRepo;
 import com.pos.service.ItemService;
+import com.pos.utill.mappers.ItemMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +23,18 @@ public class ItemServiceImpl implements ItemService {
   @Autowired
   private ModelMapper modelMapper;
 
+  @Autowired
+  private ItemMapper itemMapper;
+
 
 
     @Override
-    public String addItem(ItemDTO itemDTO) {
-        Item item = new Item(
-                itemDTO.getItemId(),
-                itemDTO.getItemName(),
-                itemDTO.getSellingPrice(),
-                itemDTO.isActiveState()
+    public String addItem(RequestSaveItemDTO requestSaveItemDTO) {
 
-        );
+        Item item=itemMapper.requsetDtoToEntity(requestSaveItemDTO);
+        item.setActiveState(false);
 
-        if (!itemRepo.existsById(itemDTO.getItemId())){
+        if (!itemRepo.existsById(item.getItemId())){
             itemRepo.save(item);
             return "item saved";
         }else {
@@ -49,10 +48,7 @@ public class ItemServiceImpl implements ItemService {
 
         if (item!=null){
             ItemDTO itemDTO = new ItemDTO(
-                    item.getItemId(),
-                    item.getItemName(),
-                    item.getSellingPrice(),
-                    item.isActiveState()
+
             );
             return itemDTO;
         }else {
