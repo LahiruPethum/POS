@@ -76,15 +76,9 @@ public class ItemServiceImpl implements ItemService {
 //    }
     public List<ItemDTO> getAllItems() {
         List<Item> getAllItems = itemRepo.findAll();
-        List<ItemDTO> itemDTOList = new ArrayList<>();
+        List<ItemDTO> itemDTOList = itemMapper.entityListToDtoList(getAllItems);
 
-        if (getAllItems!=null){
-            itemDTOList=modelMapper.map(getAllItems, new TypeToken<List
-                    <ItemDTO>>(){}.getType());
-            return itemDTOList;
-        }else {
-            return null;
-        }
+       return itemDTOList;
 
     }
 
