@@ -43,19 +43,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDTO getCustomerById(int itemId) {
-        Item item= itemRepo.getById(itemId);
+    public List<ItemDTO> getItemByName(String itemName) {
+        List<Item> items = itemRepo.findAllByItemNameIs(itemName);
+        List<ItemDTO> itemDTOs = itemMapper.entityListToDtoList(items);
 
-        if (item!=null){
-            ItemDTO itemDTO = new ItemDTO(
-
-            );
-            return itemDTO;
-        }else {
-            return null;
+        if (itemName!=null){
+            return itemDTOs;
         }
+        return null;
     }
-
     @Override
 //    public List<ItemDTO> getAllItems() {
 //        List<Item> getAllItems = itemRepo.findAll();

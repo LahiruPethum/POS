@@ -10,9 +10,9 @@ public interface ItemService {
 
     String addItem(RequestSaveItemDTO itemDTO);
 
-    ItemDTO getCustomerById(int itemId);
-
     List<ItemDTO> getAllItems();
 
     String deleteItem(int itemId);
+
+    List<ItemDTO> getItemByName(String itemName);
 }

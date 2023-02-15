@@ -23,11 +23,11 @@ public class ItemController {
         return s;
     }
 
-    @GetMapping(path="/get-by-id",
-            params = "id")
-    public ItemDTO getItemById(@RequestParam(value = "id") int itemId){
-        ItemDTO itemDTO = itemService.getCustomerById(itemId);
-        return itemDTO;
+    @GetMapping(path="/get-by-name",
+            params = "name")
+    public List<ItemDTO> getItemByName(@RequestParam(value = "name") String itemName){
+        List<ItemDTO> itemDTOList = itemService.getItemByName(itemName);
+        return itemDTOList;
     }
 
     @GetMapping(path = "/get-all")
