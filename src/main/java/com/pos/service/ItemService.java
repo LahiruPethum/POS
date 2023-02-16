@@ -1,6 +1,7 @@
 package com.pos.service;
 
 import com.pos.dto.ItemDTO;
+import com.pos.dto.paginated.PaginatedResponseItemDto;
 import com.pos.dto.request.RequestSaveItemDTO;
 import com.pos.exception.NotFoundExcption;
 
@@ -16,4 +17,7 @@ public interface ItemService {
     String deleteItem(int itemId);
 
     List<ItemDTO> getItemByName(String itemName);
+
+
+    PaginatedResponseItemDto getAllActiveItems(int page, int size, boolean activeState);
 }

@@ -34,6 +34,7 @@ public class CustomerServiceIMPL implements CustomerService {
                 customerDTO.getContactNumbers(),
                 customerDTO.getNic(),
                 customerDTO.isActiveState()
+
         );
 
         if (!customerRepo.existsById(customer.getCustomerId())) {

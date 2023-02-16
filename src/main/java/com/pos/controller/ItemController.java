@@ -2,6 +2,7 @@ package com.pos.controller;
 
 import com.pos.dto.CustomerDTO;
 import com.pos.dto.ItemDTO;
+import com.pos.dto.paginated.PaginatedResponseItemDto;
 import com.pos.dto.request.RequestSaveItemDTO;
 import com.pos.exception.NotFoundExcption;
 import com.pos.service.ItemService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Max;
 import java.util.List;
 
 @RestController
@@ -56,6 +58,22 @@ public class ItemController {
                 HttpStatus.OK
         );
     }
+
+    @GetMapping(path = "/get-all-active",
+    params = {"page","size","activeState"})
+    public ResponseEntity<StandardResponse> getallItems(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size")@Max(10) int size,
+            @RequestParam(value = "activeState") boolean activeState){
+        PaginatedResponseItemDto paginatedResponseItemDto =itemService.getAllActiveItems(page,size,activeState);
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"Success",paginatedResponseItemDto),
+                HttpStatus.OK
+        );
+    }
+
+
 
     @PutMapping(path = "/update")
     public String updateItem(@RequestBody ItemDTO itemDTO){

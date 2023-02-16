@@ -1,6 +1,7 @@
 package com.pos.service.impl;
 
 import com.pos.dto.ItemDTO;
+import com.pos.dto.paginated.PaginatedResponseItemDto;
 import com.pos.dto.request.RequestSaveItemDTO;
 import com.pos.entity.Item;
 import com.pos.exception.NotFoundExcption;
@@ -10,6 +11,8 @@ import com.pos.utill.mappers.ItemMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,6 +56,10 @@ public class ItemServiceImpl implements ItemService {
         }
         return null;
     }
+
+
+
+
     @Override
 //    public List<ItemDTO> getAllItems() {
 //        List<Item> getAllItems = itemRepo.findAll();
@@ -91,6 +98,19 @@ throw new NotFoundExcption("No item to show in this table");
 
     }
 
+    @Override
+    public PaginatedResponseItemDto getAllActiveItems(int page, int size, boolean activeState) {
+        Page<Item> items = itemRepo.findAllByActiveStateEquals(activeState, PageRequest.of(page,size));
+//        List<ItemDTO> itemDTOList = itemMapper.pageToList(items);
+//
+//        int count = itemRepo.countAllByActiveState(activeState);
+
+        if (items.getSize()<0){
+            throw new NotFoundExcption("No item to display");
+        }
+        return new PaginatedResponseItemDto(itemMapper.pageToList(items),itemRepo.countAllByActiveState(activeState));
+
+    }
 
 
     @Override

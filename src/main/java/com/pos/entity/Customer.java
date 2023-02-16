@@ -5,8 +5,10 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -39,10 +41,13 @@ public class Customer {
     @Column(name = "active_state", columnDefinition = "TINYINT default 1")
     private boolean activeState;
 
-    public Customer() {
+    @OneToMany(mappedBy="customer")
+    private Set<Order> orders;
+
+    public Customer(int customerId, String customerName, String customerAddress, double customerSalary, ArrayList contactNumbers, String nic, boolean activeState) {
     }
 
-    public Customer(int customerId, String customerName, String custormerAddress, double customersalary, ArrayList contactNumbers, String nic, boolean activeState) {
+    public Customer(int customerId, String customerName, String custormerAddress, double customersalary, ArrayList contactNumbers, String nic, boolean activeState, Set<Item> orders) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.custormerAddress = custormerAddress;
@@ -50,6 +55,7 @@ public class Customer {
         this.contactNumbers = contactNumbers;
         this.nic = nic;
         this.activeState = activeState;
+
     }
 
     public int getCustomerId() {
@@ -107,4 +113,6 @@ public class Customer {
     public void setActiveState(boolean activeState) {
         this.activeState = activeState;
     }
+
+
 }
