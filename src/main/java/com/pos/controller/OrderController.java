@@ -22,7 +22,7 @@ public class OrderController {
 //        System.out.println(requestOrederSaveDto);
        String s = orderService.addOrder(requestOrederSaveDto);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(201,2+"item successfully saved", 2),
+                new StandardResponse(201,s+"item successfully saved", s),
                 HttpStatus.CREATED
         );
     }
