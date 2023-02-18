@@ -9,6 +9,8 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -20,7 +22,6 @@ import javax.persistence.*;
 @Data
 public class Order {
 
-
     @Id
     @Column(name="Order_id", length = 45)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,4 +30,19 @@ public class Order {
     @ManyToOne
     @JoinColumn(name="customer_id", nullable=false)
     private Customer customer;
+
+    @Column(name = "order_date",columnDefinition = "DATETIME")
+    private Date data;
+
+    @Column(name = "total",nullable = false)
+    private Double total;
+
+    @OneToMany(mappedBy = "orders")
+    private Set<OrderDetails> orderDetails;
+
+    public Order(Customer customer, Date data, Double total) {
+        this.customer = customer;
+        this.data = data;
+        this.total = total;
+    }
 }

@@ -24,9 +24,12 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping(path = "/save")
-    public String saveItem(@RequestBody RequestSaveItemDTO requestSaveItemDTO){
+    public ResponseEntity<StandardResponse> saveItem(@RequestBody RequestSaveItemDTO requestSaveItemDTO){
         String s = itemService.addItem(requestSaveItemDTO);
-        return s;
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(201,s+"item successfully saved", s),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping(path="/get-by-name",
