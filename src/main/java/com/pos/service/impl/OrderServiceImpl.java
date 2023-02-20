@@ -1,18 +1,20 @@
 package com.pos.service.impl;
 
+import com.pos.dto.paginated.PginatedResponseOrderDetailsDTO;
+import com.pos.dto.queryInterface.OrderDetailsInterface;
 import com.pos.dto.request.RequestOrederSaveDto;
+import com.pos.dto.response.ResponseOrderDetailsDTO;
 import com.pos.entity.Order;
 import com.pos.entity.OrderDetails;
-import com.pos.exception.NotFoundExcption;
 import com.pos.repo.CustomerRepo;
 import com.pos.repo.ItemRepo;
 import com.pos.repo.OrderDetailsRepo;
 import com.pos.repo.OrderRepo;
 import com.pos.service.OrderService;
-import com.pos.utill.mappers.ItemMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -68,5 +70,32 @@ public class OrderServiceImpl implements OrderService {
 //
         }
         return null;
+    }
+
+    @Override
+    public PginatedResponseOrderDetailsDTO getAllOderDetails(boolean status, int page, int size) {
+
+        List<OrderDetailsInterface> orderDetailsInterfaces = orderRepo.getAllOrderDetails(status, PageRequest.of(page,size));
+        System.out.println(orderDetailsInterfaces.get(0).getCustomerName());
+
+        List<ResponseOrderDetailsDTO> list = new ArrayList<>();
+
+        for (OrderDetailsInterface o : orderDetailsInterfaces){
+//            ResponseOrderDetailsDTO responseOrderDetailsDTO = new ResponseOrderDetailsDTO(
+//              o.getCustomerName(),o.getCustomerAddress(),o.getContactNumbers(),o.getData(),o.getTotal()
+//            );
+
+            list.add(
+                    new ResponseOrderDetailsDTO(
+                            o.getCustomerName(),o.getCustomerAddress(),o.getContactNumbers(),o.getData(),o.getTotal()
+                    )
+            );
+        }
+        PginatedResponseOrderDetailsDTO pginatedResponseOrderDetailsDTO = new PginatedResponseOrderDetailsDTO(
+                list,
+                orderRepo.countAllOrderDetails(status)
+
+        );
+        return pginatedResponseOrderDetailsDTO;
     }
 }
